@@ -27,6 +27,10 @@ public class Tracker {
 		private BufferedImage lastFrame;
 		int frames = 0;
 		
+		//Center point
+		private int x;
+		private int y;
+		
 		//Constant
 		private  String version = "0.0a";
 	
@@ -95,8 +99,8 @@ public class Tracker {
 		}
 		
 		//Variables
-		int cx = frame.getWidth() / 2;		//Stores the target center x coordinate
-		int cy = frame.getHeight() / 2;		//Stores the target center y coordinate
+		int cx = -1;		//Stores the target center x coordinate
+		int cy = -1;		//Stores the target center y coordinate
 		
 		List<int[]> points = new ArrayList<int[]>();	//Stores a list of pixels that matched the criteria
 		
@@ -132,10 +136,15 @@ public class Tracker {
 		//Calculate the center of the detected region
 		int[][] pixels = points.toArray(new int[2][points.size()]);
 		if(pixels.length == 0) {
+			//Add one to equalize
+			cx = cx + 1;
+			cy = cy + 1;
+			//Sum the X and Y
 			for(int i = 0; i < pixels.length; i++) {
 				cx = cx + pixels[1][i];
 				cy = cy + pixels[0][i];
 			}
+			//Divide to get average values
 			cx = cx / pixels.length;
 			cy = cy / pixels.length;
 		}
@@ -204,6 +213,15 @@ public class Tracker {
 	//Get the last frame
 	public BufferedImage getLastFrame() {
 		return lastFrame;
+	}
+	
+	//Get the center X value
+	public int getX() {
+		return x;
+	}
+	//Get the center Y value
+	public int getY() {
+		return y;
 	}
 	
 	//Debug functions
