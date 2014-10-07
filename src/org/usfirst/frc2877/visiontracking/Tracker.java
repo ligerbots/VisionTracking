@@ -32,7 +32,7 @@ public class Tracker {
 		private int y;
 		
 		//Constant
-		private  String version = "0.0a";
+		private  String version = "0.0b";
 	
 	//Target color specification
 		//Set the target red value
@@ -89,6 +89,19 @@ public class Tracker {
 		public int getBlueTolerance() {
 			return blueTolerance;
 		}
+                
+                public void setAllTolerances(int red, int green, int blue){
+                    this.redTolerance = red;
+                    this.greenTolerance = green;
+                    this.blueTolerance = blue;
+                }
+	                //Sets all 3 target RGB values at once
+                public void setRGBTargets(int red, int green, int blue){
+                    this.red = red;
+                    this.green = green;
+                    this.blue = blue;
+                }
+	
 	
 	//Process a given frame
 	public void processFrame(BufferedImage frame) {
@@ -135,18 +148,18 @@ public class Tracker {
 		
 		//Calculate the center of the detected region
 		int[][] pixels = points.toArray(new int[2][points.size()]);
-		if(pixels.length == 0) {
+		if(points.size() != 0) {
 			//Add one to equalize
-			cx = cx + 1;
-			cy = cy + 1;
+			x = cx+1;
+			y = cy+1;
 			//Sum the X and Y
-			for(int i = 0; i < pixels.length; i++) {
-				cx = cx + pixels[1][i];
-				cy = cy + pixels[0][i];
+			for(int i = 0; i < points.size(); i++) {
+				x += pixels[i][0];
+				y += pixels[i][1];
 			}
 			//Divide to get average values
-			cx = cx / pixels.length;
-			cy = cy / pixels.length;
+			x /= points.size();
+			y /= points.size();
 		}
 		
 		//Calculate the end time
@@ -161,6 +174,7 @@ public class Tracker {
 			fps = 1 / frametime;
 			if(enableConsoleOutput) {
 				System.out.println("Processed frame in " + exectime + "ns, at " + fps + " fps!");
+                                System.out.println("Center: "+x + "," + y);
 			}
 		}
 		
