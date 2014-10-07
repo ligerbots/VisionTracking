@@ -17,7 +17,7 @@ public class Main {
 		tracker.enableConsoleOutput(true);
 		tracker.enableDebugInformation(true);
 		tracker.enablePixelShading(true);
-                tracker.setRGBTargets(0,155,87);
+                tracker.setAllTargets(0,155,87);
                 tracker.setAllTolerances(20,20,20);
 		URL url = new URL("http://www.google.com/images/srpr/logo11w.png");
 		System.out.println("Running tracker for 1000 frames:");
