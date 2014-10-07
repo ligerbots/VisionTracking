@@ -90,17 +90,18 @@ public class Tracker {
 			return blueTolerance;
 		}
                 
-                public void setAllTolerances(int red, int green, int blue){
-                    this.redTolerance = red;
-                    this.greenTolerance = green;
-                    this.blueTolerance = blue;
-                }
-	                //Sets all 3 target RGB values at once
-                public void setRGBTargets(int red, int green, int blue){
-                    this.red = red;
-                    this.green = green;
-                    this.blue = blue;
-                }
+        //Sets all of the RGB tolerances at the same time
+        public void setAllTolerances(int red, int green, int blue){
+            this.redTolerance = red;
+            this.greenTolerance = green;
+            this.blueTolerance = blue;
+        }
+        //Sets all three RGB targets at the same time
+        public void setTargets(int red, int green, int blue){
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+        }
 	
 	
 	//Process a given frame
