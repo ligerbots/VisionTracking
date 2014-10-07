@@ -97,7 +97,7 @@ public class Tracker {
             this.blueTolerance = blue;
         }
         //Sets all three RGB targets at the same time
-        public void setTargets(int red, int green, int blue){
+        public void setAllTargets(int red, int green, int blue){
             this.red = red;
             this.green = green;
             this.blue = blue;
