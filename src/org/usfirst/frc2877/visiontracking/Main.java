@@ -7,7 +7,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class Main {
-
+   
 	//Example program - Will retrieve a blank image from the team website, process it, then repeat.  1000 times.
 	public static void main(String[] args) throws IOException {
 		System.out.println("Initializing Debug Application...");
