@@ -11,19 +11,25 @@ public class Tracker {
 
 	//Variables
 		//Target color
-		private int red;
-		private int green;
-		private int blue;
+		private int redTarget;
+		private int greenTarget;
+		private int blueTarget;
 	
 		//Color offset tolerance
 		private int redTolerance;
 		private int greenTolerance;
 		private int blueTolerance;
 		
+		//Colors
+		private int black = Color.BLACK.getRGB();
+		private int red = Color.RED.getRGB();
+		
 		//Debug values
 		private boolean enableConsoleOutput = false;
 		private boolean enableDebugInformation = true;
 		private boolean enablePixelShading = false;
+		private boolean enableCrosshairs = false;
+		private boolean enableSolidShading = false;
 		private BufferedImage lastFrame;
 		int frames = 0;
 		
@@ -36,16 +42,16 @@ public class Tracker {
 	
 	//Target color specification
 		//Set the target red value
-		public void setRed(int red) {
-			this.red = red;
+		public void setRedTarget(int redTarget) {
+			this.redTarget = redTarget;
 		}
 		//Set the target green value
-		public void setGreen(int green) {
-			this.green = green;
+		public void setGreenTarget(int greenTarget) {
+			this.greenTarget = greenTarget;
 		}
 		//Set the target blue value
-		public void setBlue(int blue) {
-			this.blue = blue;
+		public void setBlueTarget(int blueTarget) {
+			this.blueTarget = blueTarget;
 		}
 	
 	//Color offset tolerance specification
@@ -64,16 +70,16 @@ public class Tracker {
 	
 	//Target color retrieval
 		//Get the red target
-		public int getRed() {
-			return red;
+		public int getRedTarget() {
+			return redTarget;
 		}
 		//Get the green target
-		public int getGreen() {
-			return green;
+		public int getGreenTarget() {
+			return greenTarget;
 		}
 		//Get the blue target
-		public int getBlue() {
-			return blue;
+		public int getBlueTarget() {
+			return blueTarget;
 		}
 	
 	//Color offset tolerance retrieval
@@ -89,19 +95,19 @@ public class Tracker {
 		public int getBlueTolerance() {
 			return blueTolerance;
 		}
-                
-        //Sets all of the RGB tolerances at the same time
-        public void setAllTolerances(int red, int green, int blue){
-            this.redTolerance = red;
-            this.greenTolerance = green;
-            this.blueTolerance = blue;
-        }
-        //Sets all three RGB targets at the same time
-        public void setAllTargets(int red, int green, int blue){
-            this.red = red;
-            this.green = green;
-            this.blue = blue;
-        }
+				
+	//Sets all of the RGB tolerances at the same time
+	public void setAllTolerances(int red, int green, int blue){
+		this.redTolerance = red;
+		this.greenTolerance = green;
+		this.blueTolerance = blue;
+	}
+	//Sets all three RGB targets at the same time
+	public void setAllTargets(int red, int green, int blue){
+		this.redTarget = red;
+		this.greenTarget = green;
+		this.blueTarget = blue;
+	}
 	
 	
 	//Process a given frame
@@ -130,19 +136,26 @@ public class Tracker {
 				int blue = getBlue(rgb);
 				
 				//Check if the pixel matches the criteria
-				if(Math.abs(red - this.red) < this.redTolerance && Math.abs(green - this.green) < this.greenTolerance && Math.abs(blue - this.blue) < this.blueTolerance) {
+				if(Math.abs(red - this.redTarget) < this.redTolerance && Math.abs(green - this.greenTarget) < this.greenTolerance && Math.abs(blue - this.blueTarget) < this.blueTolerance) {
 					//Pixel is a match, add to the list
 					points.add(new int[]{x,y});
-					//Debug - shade pixels
-					
-					if(enablePixelShading) { //Shade the pixel, to show it was a positive match
-						//Calculate the red dimness
-						int rdim = (255 - red) / 2;
-						//Tint the pixel red
-						int color = new Color(red + rdim, green, blue).getRGB();
-						//Set the pixel color
-						frame.setRGB(x, y, color);
+
+					//Shade the pixel, to show it was a positive match, if enabled
+					if(enablePixelShading) {
+						//Check if the pixel should be shaded with a solid color
+						if(enableSolidShading) {
+							frame.setRGB(x, y, red);
+						} else {
+							//Calculate the red dimness
+							int rdim = (255 - red) / 2;
+							//Tint the pixel red
+							int color = new Color(red + rdim, green, blue).getRGB();
+							//Set the pixel color
+							frame.setRGB(x, y, color);
+						}
 					}
+				} else if(enablePixelShading && enableSolidShading) {
+					frame.setRGB(x, y, black);
 				}
 			}
 		}
@@ -163,6 +176,15 @@ public class Tracker {
 			y /= points.size();
 		}
 		
+		//Draw crosshairs if enabled
+		if(enableCrosshairs) {
+			//Get the graphics from the frame
+			Graphics g = frame.getGraphics();
+			//Draw the crosshairs
+			g.drawLine(x - 5, y, x + 5, y);
+			g.drawLine(x, y - 5, x, y + 5);
+		}
+		
 		//Calculate the end time
 		long exectime = 0;
 		double fps = 0;
@@ -175,7 +197,7 @@ public class Tracker {
 			fps = 1 / frametime;
 			if(enableConsoleOutput) {
 				System.out.println("Processed frame in " + exectime + "ns, at " + fps + " fps!");
-                                System.out.println("Center: "+x + "," + y);
+				System.out.println("Center: "+x + "," + y);
 			}
 		}
 		
@@ -248,5 +270,11 @@ public class Tracker {
 	}
 	public void enablePixelShading(boolean enable) {
 		this.enablePixelShading = enable;
+	}
+	public void enableCrosshairs(boolean enable) {
+		this.enableCrosshairs = enable;
+	}
+	public void enableSolidShading(boolean enable) {
+		this.enableSolidShading = enable;
 	}
 }
