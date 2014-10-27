@@ -118,11 +118,8 @@ public class Tracker {
 			stime = System.nanoTime();
 		}
 		
-		//Variables
-		int cx = -1;		//Stores the target center x coordinate
-		int cy = -1;		//Stores the target center y coordinate
-		
-		List<int[]> points = new ArrayList<int[]>();	//Stores a list of pixels that matched the criteria
+		x = y = 0;
+		int total = 0;
 		
 		//Iterate through each pixel in the given image
 		for(int x = 0; x < frame.getWidth(); x++) {
@@ -138,8 +135,9 @@ public class Tracker {
 				//Check if the pixel matches the criteria
 				if(Math.abs(red - this.redTarget) < this.redTolerance && Math.abs(green - this.greenTarget) < this.greenTolerance && Math.abs(blue - this.blueTarget) < this.blueTolerance) {
 					//Pixel is a match, add to the list
-					points.add(new int[]{x,y});
-
+					this.x += x;
+					this.y += y;
+					total++;
 					//Shade the pixel, to show it was a positive match, if enabled
 					if(enablePixelShading) {
 						//Check if the pixel should be shaded with a solid color
@@ -160,21 +158,8 @@ public class Tracker {
 			}
 		}
 		
-		//Calculate the center of the detected region
-		int[][] pixels = points.toArray(new int[2][points.size()]);
-		if(points.size() != 0) {
-			//Add one to equalize
-			x = cx+1;
-			y = cy+1;
-			//Sum the X and Y
-			for(int i = 0; i < points.size(); i++) {
-				x += pixels[i][0];
-				y += pixels[i][1];
-			}
-			//Divide to get average values
-			x /= points.size();
-			y /= points.size();
-		}
+		x /= total;
+		y /= total;
 		
 		//Draw crosshairs if enabled
 		if(enableCrosshairs) {
@@ -217,7 +202,7 @@ public class Tracker {
 			g.drawString("Frame width: " + frame.getWidth(), 5, 41);
 			g.drawString("Frame height: " + frame.getHeight(), 5, 53);
 			g.drawString("Execution time: " + exectime + "ns", 5, 65);
-			g.drawString("Center point: " + cx + "," + cy, 5, 77);
+			g.drawString("Center point: " + x + "," + y, 5, 77);
 			g.drawString("FPS: " + fps, 5, 89);
 			g.drawString("Frames: " + frames, 5, 101);
 			//Calculate the center point
