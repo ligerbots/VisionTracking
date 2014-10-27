@@ -10,91 +10,91 @@ import java.util.List;
 public class Tracker {
 
 	//Variables
-		//Target color
-		private int redTarget;
-		private int greenTarget;
-		private int blueTarget;
+	//Target color
+	private int redTarget;
+	private int greenTarget;
+	private int blueTarget;
+
+	//Color offset tolerance
+	private int redTolerance;
+	private int greenTolerance;
+	private int blueTolerance;
 	
-		//Color offset tolerance
-		private int redTolerance;
-		private int greenTolerance;
-		private int blueTolerance;
-		
-		//Colors
-		private int black = Color.BLACK.getRGB();
-		private int red = Color.RED.getRGB();
-		
-		//Debug values
-		private boolean enableConsoleOutput = false;
-		private boolean enableDebugInformation = true;
-		private boolean enablePixelShading = false;
-		private boolean enableCrosshairs = false;
-		private boolean enableSolidShading = false;
-		private BufferedImage lastFrame;
-		int frames = 0;
-		
-		//Center point
-		private int x;
-		private int y;
-		
-		//Constant
-		private  String version = "0.0b";
+	//Colors
+	private int black = Color.BLACK.getRGB();
+	private int red = Color.RED.getRGB();
+	
+	//Debug values
+	private boolean enableConsoleOutput = false;
+	private boolean enableDebugInformation = true;
+	private boolean enablePixelShading = false;
+	private boolean enableCrosshairs = false;
+	private boolean enableSolidShading = false;
+	private BufferedImage lastFrame;
+	int frames = 0;
+	
+	//Center point
+	private int x;
+	private int y;
+	
+	//Constant
+	private  String version = "0.0b";
 	
 	//Target color specification
-		//Set the target red value
-		public void setRedTarget(int redTarget) {
-			this.redTarget = redTarget;
-		}
-		//Set the target green value
-		public void setGreenTarget(int greenTarget) {
-			this.greenTarget = greenTarget;
-		}
-		//Set the target blue value
-		public void setBlueTarget(int blueTarget) {
-			this.blueTarget = blueTarget;
-		}
+	//Set the target red value
+	public void setRedTarget(int redTarget) {
+		this.redTarget = redTarget;
+	}
+	//Set the target green value
+	public void setGreenTarget(int greenTarget) {
+		this.greenTarget = greenTarget;
+	}
+	//Set the target blue value
+	public void setBlueTarget(int blueTarget) {
+		this.blueTarget = blueTarget;
+	}
 	
 	//Color offset tolerance specification
-		//Set the red tolerance
-		public void setRedTolerance(int redTolerance) {
-			this.redTolerance = redTolerance;
-		}
-		//Set the green tolerance
-		public void setGreenTolerance(int greenTolerance) {
-			this.greenTolerance = greenTolerance;
-		}
-		//Set the blue tolerance
-		public void setBlueTolerance(int blueTolerance) {
-			this.blueTolerance = blueTolerance;
-		}
+	//Set the red tolerance
+	public void setRedTolerance(int redTolerance) {
+		this.redTolerance = redTolerance;
+	}
+	//Set the green tolerance
+	public void setGreenTolerance(int greenTolerance) {
+		this.greenTolerance = greenTolerance;
+	}
+	//Set the blue tolerance
+	public void setBlueTolerance(int blueTolerance) {
+		this.blueTolerance = blueTolerance;
+	}
 	
 	//Target color retrieval
-		//Get the red target
-		public int getRedTarget() {
-			return redTarget;
-		}
-		//Get the green target
-		public int getGreenTarget() {
-			return greenTarget;
-		}
-		//Get the blue target
-		public int getBlueTarget() {
-			return blueTarget;
-		}
+	//Get the red target
+	public int getRedTarget() {
+		return redTarget;
+	}
+	//Get the green target
+	public int getGreenTarget() {
+		return greenTarget;
+	}
+	//Get the blue target
+	public int getBlueTarget() {
+		return blueTarget;
+	}
 	
 	//Color offset tolerance retrieval
-		//Get the red tolerance
-		public int getRedTolerance() {
-			return redTolerance;
-		}
-		//Get the green tolerance
-		public int getGreenTolerance() {
-			return greenTolerance;
-		}
-		//Get the blue tolerance
-		public int getBlueTolerance() {
-			return blueTolerance;
-		}
+	//Get the red tolerance
+	public int getRedTolerance() {
+		return redTolerance;
+	}
+	//Get the green tolerance
+	public int getGreenTolerance() {
+		return greenTolerance;
+	}
+	//Get the blue tolerance
+	public int getBlueTolerance() {
+		return blueTolerance;
+	}
 				
 	//Sets all of the RGB tolerances at the same time
 	public void setAllTolerances(int red, int green, int blue){
