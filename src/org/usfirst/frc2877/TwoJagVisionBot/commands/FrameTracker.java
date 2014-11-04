@@ -135,10 +135,14 @@ public class FrameTracker {
                     //Variables
                     int cx = -1;		//Stores the target center x coordinate
                     int cy = -1;		//Stores the target center y coordinate
-
+                    
+                    //Image dimensions
+                    int width = theImage.getWidth();
+                    int height = theImage.getHeight();
+                    
                     //List<int[]> points = new ArrayList<int[]>();	//Stores a list of pixels that matched the criteria
-                    int[] rawData = new int[theImage.getWidth()*theImage.getHeight()];
-                    theImage.image.getInts(0, rawData,0,theImage.getHeight()*theImage.getWidth());
+                    int[] rawData = new int[width * height];
+                    theImage.image.getInts(0, rawData, 0, width * height);
                     //Add one to set to 0
                     x = cx+1;
                     y = cy+1;   
@@ -147,13 +151,13 @@ public class FrameTracker {
                     
                     //ASSUMPTION: There's at least 1 pixel within tolerance. Fix this.
                     
-                    for(int place=0;place<rawData.length;place++){
+                    for(int place = 0; place < rawData.length; place++){
                         if(Math.abs(rawData[place] - red)<redTolerance 
                                 && Math.abs(rawData[place+1] - green)<greenTolerance
                                 && Math.abs(rawData[place+2] - blue)<blueTolerance){
                             //Then it's within the target; Sum the X and Y
-                                x += place%theImage.getWidth();
-                                y += place/theImage.getWidth();
+                                x += place%width;
+                                y += place/width;
                                 amtWithinTolerance++;
                             }
                         }
@@ -192,7 +196,7 @@ public class FrameTracker {
                             //fps = 1 / frametime;
                             if(enableConsoleOutput) {
                             //	System.out.println("Processed frame in " + exectime + "ns, at " + fps + " fps!");
-                                    System.out.println("Center: "+x + "," + y);
+                                    System.out.println("Center: " + x + "," + y);
                             }
                     }
 
