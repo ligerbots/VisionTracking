@@ -10,10 +10,13 @@
 package org.usfirst.frc2877.TwoJagVisionBot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc2877.TwoJagVisionBot.Robot;
+import org.usfirst.frc2877.TwoJagVisionBot.commands.FrameTracker;
 /**
  *
  */
 public class  doVisionalizing extends Command {
+    static FrameTracker tracker;
+    boolean initialized = false;
     public doVisionalizing() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -23,9 +26,14 @@ public class  doVisionalizing extends Command {
     }
     // Called just before this Command runs the first time
     protected void initialize() {
+        if(!initialized){
+            tracker = new FrameTracker();
+            initialized = true;
+        }
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        tracker.processFrame();
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
@@ -37,5 +45,6 @@ public class  doVisionalizing extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        
     }
 }
